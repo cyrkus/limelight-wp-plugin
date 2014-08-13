@@ -1,3 +1,6 @@
+#### 1.0.3
+Added GitHub Plugin URI for use with [GitHub-Updater](https://github.com/afragen/github-updater)
+
 #### 1.0.2
 Moved required PHP classes into `inc` directory
 

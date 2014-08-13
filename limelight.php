@@ -11,16 +11,18 @@
  * @copyright 7-30-2014 7/Apps
  *
  * @wordpress-plugin
- * Plugin Name: Limelight
- * Plugin URI:  http://www.7apps.com
- * Description: Sync Attendee and other data captured by wordpress with the Limelight API.
- * Version:     1.0.2
- * Author:      7/Apps <ryan@7apps.com>
- * Author URI:  http://www.7apps.com
- * Text Domain: limelight
- * License:     GPL-2.0+
- * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
- * Domain Path: /lang
+ * Plugin Name:       Limelight
+ * Plugin URI:        http://www.7apps.com
+ * Description:       Sync Attendee and other data captured by wordpress with the Limelight API.
+ * Version:           1.0.3
+ * Author:            7/Apps <ryan@7apps.com>
+ * Author URI:        http://www.7apps.com
+ * Text Domain:       limelight
+ * Domain Path:       /lang
+ * License:           GPL-2.0+
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * GitHub Plugin URI: https://github.com/sevenapps/limelight-wp-plugin
+ * GitHub Branch:     master
  */
 
 // If this file is called directly, abort.
