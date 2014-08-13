@@ -1,0 +1,125 @@
+# Copyright (C) 7-30-2014
+# This file is distributed under the same license as the limelight package.
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0.0\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/plugin-name\n"
+"POT-Creation-Date: 2014-08-13 16:13-0800\n"
+"PO-Revision-Date: 2014-08-13 16:13-0800\n"
+"Last-Translator: Ryan Anderson <ryan@7apps.com>\n"
+"Language-Team: ENGLISH <ryan@7apps.com>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.7\n"
+"X-Poedit-KeywordsList: __;_e;_n;_x;esc_html_e;esc_html__;esc_attr_e;"
+"esc_attr__;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_x:1,2c;_n:1,2\n"
+"X-Poedit-Basepath: ../\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: class-Limelight.php:150
+msgid "Please enable 'php_mycrypt' in PHP. It is needed to encrypt passwords."
+msgstr ""
+
+#: class-Limelight.php:267
+msgid "Limelight"
+msgstr ""
+
+#: class-Limelight.php:270
+msgid "Limelight - Settings"
+msgstr ""
+
+#: class-Limelight.php:270 class-Limelight.php:349
+msgid "Settings"
+msgstr ""
+
+#: class-Limelight.php:350
+msgid "Endpoint"
+msgstr ""
+
+#: class-Limelight.php:351
+msgid "Username"
+msgstr ""
+
+#: class-Limelight.php:352
+msgid "Password"
+msgstr ""
+
+#: class-Limelight.php:356
+msgid "Please enter your API connection details."
+msgstr ""
+
+#: class-Limelight_GFFormList.php:33 class-Limelight_GFFormList.php:79
+msgid "Inactive"
+msgstr ""
+
+#: class-Limelight_GFFormList.php:37 class-Limelight_GFFormList.php:78
+msgid "Active"
+msgstr ""
+
+#: class-Limelight_GFFormList.php:50
+msgid "Ajax error while updating form"
+msgstr ""
+
+#: class-Limelight_GFFormList.php:65
+msgid "Forms"
+msgstr ""
+
+#: class-Limelight_GFFormList.php:77
+msgid "All"
+msgstr ""
+
+#: class-Limelight_GFFormList.php:80
+msgid "Trash"
+msgstr ""
+
+#: class-Limelight_GFFormList.php:90 class-Limelight_GFFormList.php:102
+msgid "Id"
+msgstr ""
+
+#: class-Limelight_GFFormList.php:95 class-Limelight_GFFormList.php:103
+msgid "Title"
+msgstr ""
+
+#: class-Limelight_GFFormList.php:96 class-Limelight_GFFormList.php:104
+msgid "Event"
+msgstr ""
+
+#: class-Limelight_GFFormList.php:125
+msgid "Edit"
+msgstr ""
+
+#: class-Limelight_GFFormList.php:146
+msgid "There are no forms in the trash."
+msgstr ""
+
+#: class-Limelight_GFFormList.php:148
+#, php-format
+msgid "You don't have any forms. Let's go %screate one%s!"
+msgstr ""
+
+#: views/admin-attendees.php:26 views/admin-settings.php:28
+msgid "Login"
+msgstr ""
+
+#: views/admin-edit-form.php:48
+msgid "Select Event"
+msgstr ""
+
+#: views/admin-edit-form.php:49
+msgid "Select an event from the list below."
+msgstr ""
+
+#: views/admin-edit-form.php:68
+msgid "Connect Fields"
+msgstr ""
+
+#: views/admin-edit-form.php:69
+msgid "Match each of the following fields to the gravity form inputs."
+msgstr ""
+
+#: views/admin-edit-form.php:90
+msgid "Save"
+msgstr ""
