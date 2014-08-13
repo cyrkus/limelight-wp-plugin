@@ -1,6 +1,6 @@
 # Limelight Plugin for WordPress
 
-Sync Attendee and other data captured by wordpress with the [7/Apps.io Events API](http://events.7apps.io/).
+Sync Attendee and other data captured by WordPress with the [7/Apps.io Events API](http://events.7apps.io/).
 
 **Contributors:** andersryanc  
 **Donate link:** http://www.7apps.com  
