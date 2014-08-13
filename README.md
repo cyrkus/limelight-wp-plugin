@@ -1,6 +1,6 @@
 # Limelight Plugin for WordPress
 * Contributors: [Ryan Anderson](https://github.com/andersryanc), [contributors](https://github.com/sevenapps/github-updater/graphs/contributors)
-* Tags: plugin, theme, update, updater
+* Tags: plugin, limelight platform, 7apps, events, attendees, sync, gravity forms, addon
 * Donate link: http://www.7apps.com
 * Requires at least: 3.8
 * Tested up to: 3.9
