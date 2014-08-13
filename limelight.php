@@ -17,7 +17,7 @@
  * Version:     1.0.2
  * Author:      7/Apps <ryan@7apps.com>
  * Author URI:  http://www.7apps.com
- * Text Domain: limelight-locale
+ * Text Domain: limelight
  * License:     GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  * Domain Path: /lang
