@@ -21,14 +21,8 @@ $form = $forms[0];
 $form_settings = LimelightModel::get_form_settings($form_id);
 $inputs = LimelightAPI::get_event_inputs($form_settings->event_id);
 
-$actions = array(
-    'invite'  => 'Add + Send Invite',
-    'create'  => 'Add Only',
-    'confirm' => 'RSVP + Send Confirmation',
-    'rsvp'    => 'RSVP Only',
-);
 $action_opts = array();
-foreach ($actions as $action => $label) {
+foreach (LimelightAPI::$api_actions as $action => $label) {
     $selected = ($form_settings->action == $action) ? 'selected' : '';
     $action_opts[] = sprintf("<option value='%s' %s>%s</option>", $action, $selected, $label);
 }

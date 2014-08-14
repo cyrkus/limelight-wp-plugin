@@ -3,6 +3,18 @@
 class LimelightAPI {
 
     /**
+     * A list of actions that the Limelight API wil accept
+     *
+     * @var      array
+     */
+    public static $api_actions = array(
+        'invite'  => 'Add + Send Invite',
+        'create'  => 'Add Only',
+        'confirm' => 'RSVP + Send Confirmation',
+        'rsvp'    => 'RSVP Only',
+    );
+
+    /**
      * Make a request to the API
      *
      * @param   string $type    HTTP request type
