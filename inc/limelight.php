@@ -458,7 +458,6 @@ class Limelight {
         $fields = self::get_field_data($entry, $form);
 
         $attendee = LimelightAPI::add_attendee($fields);
-
         gform_update_meta($entry['id'], 'll_attendee_id', $attendee->id);
     }
 
