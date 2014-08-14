@@ -25,7 +25,7 @@ $options = get_option('limelight_options');
         <?php do_settings_sections('limelight'); ?>
 
         <p class="submit">
-            <input name="submit" type="submit" class="button-primary" value="<?php _e('Login', Limelight::$plugin_slug ); ?>" />
+            <input name="submit" type="submit" class="button-primary" value="<?php _e('Login', Limelight::$plugin_slug); ?>" />
         </p>
     </form>
 

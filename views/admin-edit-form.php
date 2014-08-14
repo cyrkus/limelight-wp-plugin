@@ -16,11 +16,9 @@ $form_id = $_GET['id'];
 
 $events = LimelightAPI::get_events();
 $form = GFFormsModel::get_form_meta_by_id($form_id)[0];
-// print '<pre>'; print_r($form); die();
 
 $form_settings = LimelightModel::get_form_settings($form_id);
 $inputs = LimelightAPI::get_event_inputs($form_settings->event_id);
-// print '<pre>'; print_r($form_settings); die();
 
 $event_opts = array();
 foreach ($events as $event) {
@@ -52,7 +50,7 @@ function gform_field_opts($fields, $input_id, $form_settings) {
         <table class="form-table">
             <tbody>
                 <tr>
-                    <th scope="row">Event <span class="required">*</span></th>
+                    <th scope="row"><?php _e('Event', Limelight::$plugin_slug); ?> <span class="required">*</span></th>
                     <td>
                         <select name="event_id">
                             <option value=""></option>
@@ -87,7 +85,7 @@ function gform_field_opts($fields, $input_id, $form_settings) {
     <?php endif; ?>
 
         <p class="submit">
-            <input name="submit" type="submit" class="button-primary" value="<?php _e('Save', Limelight::$plugin_slug ); ?>" />
+            <input name="submit" type="submit" class="button-primary" value="<?php _e('Save', Limelight::$plugin_slug); ?>" />
         </p>
     </form>
 
