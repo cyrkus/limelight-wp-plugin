@@ -110,9 +110,9 @@ class Limelight {
 
         $options = get_option('limelight_options');
         if ($options['verified']) {
-            add_action("gform_after_submission", array($this, 'add_limelight_attendee'), 10, 2);
-            add_action("gform_after_update_entry", array($this, 'update_limelight_attendee'), 10, 2);
-            add_action("gform_delete_lead", array($this, 'delete_limelight_attendee'), 10, 1);
+            add_action("gform_after_submission", array($this, 'gform_after_submission'), 10, 2);
+            add_action("gform_after_update_entry", array($this, 'gform_after_update_entry'), 10, 2);
+            add_action("gform_delete_lead", array($this, 'gform_delete_lead'), 10, 1);
         }
 
         add_action('admin_init', array($this, 'limelight_admin_init'));
@@ -453,7 +453,7 @@ class Limelight {
      *
      * @since    1.0.0
      */
-    public function add_limelight_attendee($entry, $form) {
+    public function gform_after_submission($entry, $form) {
 
         $fields = self::get_field_data($entry, $form);
 
@@ -467,7 +467,7 @@ class Limelight {
      *
      * @since    1.0.0
      */
-    public function update_limelight_attendee($form, $entry_id) {
+    public function gform_after_update_entry($form, $entry_id) {
 
         $entry = RGFormsModel::get_lead($entry_id);
 
@@ -491,7 +491,7 @@ class Limelight {
      *
      * @since    1.0.0
      */
-    public function delete_limelight_attendee($entry_id) {
+    public function gform_delete_lead($entry_id) {
 
         $entry = RGFormsModel::get_lead($entry_id);
         $attendee_id = gform_get_meta($entry['id'], 'll_attendee_id');
