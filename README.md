@@ -10,6 +10,10 @@
 
 Sync Attendee and other data captured by WordPress with the [7/Apps.io Events API](http://events.7apps.io/).
 
+## GitHub Updater
+
+[GitHub Updater](https://github.com/afragen/github-updater) is required to get updates in WP. Please download and install from their page.
+
 ## ChangeLog
 
 See [CHANGES.md](CHANGES.md).
