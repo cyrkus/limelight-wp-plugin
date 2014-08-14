@@ -53,7 +53,10 @@ class LimelightModel {
             self::get_form_settings($id);
         }
 
-        return json_decode($res[0]->settings);
+        $settings = json_decode($res[0]->settings);
+        if (!isset($settings->event_id)) $settings->event_id = false;
+
+        return $settings;
     }
 
     public static function update_form_settings($id, $settings) {

@@ -68,7 +68,7 @@ class LimelightAPI {
     public static function get_event($id) {
 
         $res = self::make_api_request('GET', 'events/'.$id);
-        return $res->event;
+        return isset($res->event) ? $res->event : false;
     }
 
     public static function get_event_inputs($id) {

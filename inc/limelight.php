@@ -210,7 +210,7 @@ class Limelight {
 
         $screen = get_current_screen();
         if ($screen->id == $this->plugin_screen_hook_suffix) {
-            wp_enqueue_style($this::$plugin_slug . "-admin-styles", plugins_url("css/admin.css", __FILE__), array(),
+            wp_enqueue_style($this::$plugin_slug . "-admin-styles", plugins_url("../css/admin.css", __FILE__), array(),
                 $this->version);
         }
 
@@ -231,7 +231,7 @@ class Limelight {
 
         $screen = get_current_screen();
         if ($screen->id == $this->plugin_screen_hook_suffix) {
-            wp_enqueue_script($this::$plugin_slug . "-admin-script", plugins_url("js/limelight-admin.js", __FILE__),
+            wp_enqueue_script($this::$plugin_slug . "-admin-script", plugins_url("../js/limelight-admin.js", __FILE__),
                 array("jquery"), $this->version);
         }
 
@@ -244,7 +244,7 @@ class Limelight {
      */
     public function enqueue_styles() {
 
-        wp_enqueue_style($this::$plugin_slug . "-plugin-styles", plugins_url("css/public.css", __FILE__), array(),
+        wp_enqueue_style($this::$plugin_slug . "-plugin-styles", plugins_url("../css/public.css", __FILE__), array(),
             $this->version);
     }
 
@@ -255,7 +255,7 @@ class Limelight {
      */
     public function enqueue_scripts() {
 
-        wp_enqueue_script($this::$plugin_slug . "-plugin-script", plugins_url("js/public.js", __FILE__), array("jquery"),
+        wp_enqueue_script($this::$plugin_slug . "-plugin-script", plugins_url("../js/public.js", __FILE__), array("jquery"),
             $this->version);
     }
 
@@ -403,9 +403,12 @@ class Limelight {
     public static function get_event_name($id) {
 
         $form_settings = LimelightModel::get_form_settings($id);
-        $event = LimelightAPI::get_event($form_settings->event_id);
-
-        return ($event) ? $event->name : '<span class="required">Not Connected</span>';
+        if (isset($form_settings->event_id) && is_numeric($form_settings->event_id)) {
+            $event = LimelightAPI::get_event($form_settings->event_id);
+            return $event->name;
+        } else {
+            return '<span class="required">Not Connected</span>';
+        }
     }
 
     /**

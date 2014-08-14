@@ -1,3 +1,6 @@
+#### 1.0.6
+Fixing WP_DEBUG warnings + notices and broken JS + CSS links
+
 #### 1.0.5
 Fix syntax to support older versions of PHP
 
