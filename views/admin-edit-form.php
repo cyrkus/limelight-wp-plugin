@@ -21,6 +21,18 @@ $form = $forms[0];
 $form_settings = LimelightModel::get_form_settings($form_id);
 $inputs = LimelightAPI::get_event_inputs($form_settings->event_id);
 
+$actions = array(
+    'invite'  => 'Add + Send Invite',
+    'create'  => 'Add Only',
+    'confirm' => 'RSVP + Send Confirmation',
+    'rsvp'    => 'RSVP Only',
+);
+$action_opts = array();
+foreach ($actions as $action => $label) {
+    $selected = ($form_settings->action == $action) ? 'selected' : '';
+    $action_opts[] = sprintf("<option value='%s' %s>%s</option>", $action, $selected, $label);
+}
+
 $event_opts = array();
 foreach ($events as $event) {
     $selected = ($form_settings->event_id == $event->id) ? 'selected' : '';
@@ -56,6 +68,14 @@ function gform_field_opts($fields, $input_id, $form_settings) {
                         <select name="event_id">
                             <option value=""></option>
                             <?php print join($event_opts); ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><?php _e('Action', Limelight::$plugin_slug); ?> <span class="required">*</span></th>
+                    <td>
+                        <select name="action">
+                            <?php print join($action_opts); ?>
                         </select>
                     </td>
                 </tr>

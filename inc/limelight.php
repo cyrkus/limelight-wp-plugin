@@ -325,6 +325,7 @@ class Limelight {
 
         $settings = new stdClass();
         $settings->event_id = $_POST['event_id'];
+        $settings->action   = $_POST['action'];
 
         if ( isset($_POST['inputs']) ) {
             $settings->inputs = $_POST['inputs'];
@@ -424,6 +425,8 @@ class Limelight {
 
         $fields = array();
         $fields['event_id'] = $form_settings->event_id;
+        $fields['action']   = $form_settings->action;
+
         foreach ($form['fields'] as $field)
         {
             $field_id = $field['id'];
