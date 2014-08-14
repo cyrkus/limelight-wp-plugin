@@ -412,20 +412,50 @@ class Limelight {
     }
 
     /**
+     * Translate GravityForms entry data into API POST fields
+     *
+     * @since    1.0.7
+     */
+    public static function get_field_data($entry, $form) {
+
+        $form_settings = LimelightModel::get_form_settings($form['id']);
+
+        $e2i = array_flip( get_object_vars($form_settings->inputs) );
+
+        $fields = array();
+        $fields['event_id'] = $form_settings->event_id;
+        foreach ($form['fields'] as $field)
+        {
+            $field_id = $field['id'];
+
+            if (!is_null($field['inputs']) && count($field['inputs']))
+            {
+                foreach ($field['inputs'] as $field_input)
+                {
+                    $fields['formdata['. $e2i[$field_id] .'][]'] = urlencode( $entry[$field_input['id']] );
+                }
+            }
+            else if ($field['type'] == 'radio')
+            {
+                $fields['formdata['. $e2i[$field_id] .'][]'] = urlencode( $entry[$field_id] );
+            }
+            else
+            {
+                $fields['formdata['. $e2i[$field_id] .']'] = urlencode( $entry[$field_id] );
+            }
+        }
+
+        return $fields;
+    }
+
+    /**
      * Add Limelight Attendee
      *
      * @since    1.0.0
      */
     public function add_limelight_attendee($entry, $form) {
 
-        $form_settings = LimelightModel::get_form_settings($form['id']);
-
-        $fields = array();
-        $fields['event_id'] = $form_settings->event_id;
-        foreach ($form_settings->inputs as $input_id => $entry_id)
-        {
-            $fields['formdata['.$input_id.']'] = urlencode( $entry[$entry_id] );
-        }
+        $fields = self::get_field_data($entry, $form);
 
         $attendee = LimelightAPI::add_attendee($fields);
 
@@ -439,17 +469,9 @@ class Limelight {
      */
     public function update_limelight_attendee($form, $entry_id) {
 
-        $form_settings = LimelightModel::get_form_settings($form['id']);
-
         $entry = RGFormsModel::get_lead($entry_id);
 
-        $fields = array();
-        $fields['event_id'] = $form_settings->event_id;
-
-        foreach ($form_settings->inputs as $input_id => $entry_id)
-        {
-            $fields['formdata['.$input_id.']'] = urlencode( $entry[$entry_id] );
-        }
+        $fields = self::get_field_data($entry, $form);
 
         $attendee_id = gform_get_meta($entry['id'], 'll_attendee_id');
 

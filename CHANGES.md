@@ -1,3 +1,6 @@
+#### 1.0.7
+Properly translate API post data for checkbox + radio type inputs
+
 #### 1.0.6
 Fixing WP_DEBUG warnings + notices and broken JS + CSS links
 

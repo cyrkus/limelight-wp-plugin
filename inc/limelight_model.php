@@ -51,12 +51,12 @@ class LimelightModel {
                     VALUES ( $id, '{}' )";
             $wpdb->get_results($sql);
             self::get_form_settings($id);
+        } else {
+            $settings = json_decode($res[0]->settings);
+            if (!isset($settings->event_id)) $settings->event_id = false;
+
+            return $settings;
         }
-
-        $settings = json_decode($res[0]->settings);
-        if (!isset($settings->event_id)) $settings->event_id = false;
-
-        return $settings;
     }
 
     public static function update_form_settings($id, $settings) {
