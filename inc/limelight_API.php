@@ -2,6 +2,16 @@
 
 class LimelightAPI {
 
+    /**
+     * Make a request to the API
+     *
+     * @param   string $type    HTTP request type
+     * @param   string $URL     API Endpoint path
+     * @param   array $fields   Data to pass to the API
+     * @param   array $options  API Connection options - endpoint, username, password
+     *
+     * @return  object          JSON Decoded API Response
+     */
     public static function make_api_request($type, $URL, $fields=false, $options=false) {
 
         if ( !$options ) {
