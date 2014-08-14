@@ -1,5 +1,5 @@
 # Limelight Plugin for WordPress
-* Contributors: [Ryan Anderson](https://github.com/andersryanc), [contributors](https://github.com/sevenapps/github-updater/graphs/contributors)
+* Contributors: [Ryan Anderson](https://github.com/andersryanc), [contributors](https://github.com/sevenapps/limelight-wp-plugin/graphs/contributors)
 * Tags: plugin, limelight platform, 7apps, events, attendees, sync, gravity forms, addon
 * Donate link: http://www.7apps.com
 * Requires at least: 3.8
