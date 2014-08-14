@@ -15,7 +15,8 @@
 $form_id = $_GET['id'];
 
 $events = LimelightAPI::get_events();
-$form = GFFormsModel::get_form_meta_by_id($form_id)[0];
+$forms = GFFormsModel::get_form_meta_by_id($form_id);
+$form = $forms[0];
 
 $form_settings = LimelightModel::get_form_settings($form_id);
 $inputs = LimelightAPI::get_event_inputs($form_settings->event_id);

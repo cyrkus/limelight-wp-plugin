@@ -1,3 +1,6 @@
+#### 1.0.5
+Fix syntax to support older versions of PHP
+
 #### 1.0.4
 Fixed view include paths
 
