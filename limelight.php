@@ -30,10 +30,12 @@ if (!defined("WPINC")) {
 	die;
 }
 
-require_once(plugin_dir_path(__FILE__) . "inc/limelight.php");
-require_once(plugin_dir_path(__FILE__) . "inc/limelight_model.php");
-require_once(plugin_dir_path(__FILE__) . "inc/limelight_API.php");
-require_once(plugin_dir_path(__FILE__) . "inc/limelight_GFFormList.php");
+define('PLUGIN_DIR', plugin_dir_path(__FILE__));
+
+require_once(PLUGIN_DIR . "inc/limelight.php");
+require_once(PLUGIN_DIR . "inc/limelight_model.php");
+require_once(PLUGIN_DIR . "inc/limelight_API.php");
+require_once(PLUGIN_DIR . "inc/limelight_GFFormList.php");
 
 // Register hooks that are fired when the plugin is activated, deactivated, and uninstalled, respectively.
 register_activation_hook(__FILE__, array("Limelight", "activate"));

@@ -287,13 +287,13 @@ class Limelight {
                 $this->process_edit_form_page();
             }
 
-            include_once("../views/admin-edit-form.php");
+            include_once(PLUGIN_DIR . "views/admin-edit-form.php");
         } else {
             if ( isset($_POST['submit']) ) {
                 $this->process_settings_page();
             }
 
-            include_once("../views/admin-settings.php");
+            include_once(PLUGIN_DIR . "views/admin-settings.php");
         }
     }
 
@@ -340,7 +340,7 @@ class Limelight {
      */
     public function display_attendees_page() {
 
-        include_once("../views/admin-attendees.php");
+        include_once(PLUGIN_DIR . "views/admin-attendees.php");
     }
 
     /**
