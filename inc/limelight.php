@@ -19,8 +19,6 @@ class Limelight {
     /**
      * Plugin version, used for cache-busting of style and script file references.
      *
-     * @since   1.0.0
-     *
      * @var     string
      */
     protected $version = "1.0.7";
@@ -31,16 +29,12 @@ class Limelight {
      * Use this value (not the variable name) as the text domain when internationalizing strings of text. It should
      * match the Text Domain file header in the main plugin file.
      *
-     * @since    1.0.0
-     *
      * @var      string
      */
     public static $plugin_slug = "limelight";
 
     /**
      * Instance of this class.
-     *
-     * @since    1.0.0
      *
      * @var      object
      */
@@ -49,16 +43,12 @@ class Limelight {
     /**
      * Slug of the plugin screen.
      *
-     * @since    1.0.0
-     *
      * @var      string
      */
     protected $plugin_screen_hook_suffix = null;
 
     /**
      * Key used for encrypting and decrypting passwords
-     *
-     * @since    1.0.0
      *
      * @var      string
      */
@@ -82,8 +72,6 @@ class Limelight {
 
     /**
      * Initialize the plugin by setting localization, filters, and administration functions.
-     *
-     * @since     1.0.0
      */
     private function __construct() {
 
@@ -122,8 +110,6 @@ class Limelight {
     /**
      * Return an instance of this class.
      *
-     * @since     1.0.0
-     *
      * @return    object    A single instance of this class.
      */
     public static function get_instance() {
@@ -138,8 +124,6 @@ class Limelight {
 
     /**
      * Fired when the plugin is activated.
-     *
-     * @since    1.0.0
      *
      * @param    boolean $network_wide    True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog.
      */
@@ -173,8 +157,6 @@ class Limelight {
     /**
      * Fired when the plugin is deactivated.
      *
-     * @since    1.0.0
-     *
      * @param    boolean $network_wide    True if WPMU superadmin uses "Network Deactivate" action, false if WPMU is disabled or plugin is deactivated on an individual blog.
      */
     public static function deactivate($network_wide) {
@@ -183,8 +165,6 @@ class Limelight {
 
     /**
      * Load the plugin text domain for translation.
-     *
-     * @since    1.0.0
      */
     public function load_plugin_textdomain() {
 
@@ -197,8 +177,6 @@ class Limelight {
 
     /**
      * Register and enqueue admin-specific style sheet.
-     *
-     * @since     1.0.0
      *
      * @return    null    Return early if no settings page is registered.
      */
@@ -219,8 +197,6 @@ class Limelight {
     /**
      * Register and enqueue admin-specific JavaScript.
      *
-     * @since     1.0.0
-     *
      * @return    null    Return early if no settings page is registered.
      */
     public function enqueue_admin_scripts() {
@@ -239,8 +215,6 @@ class Limelight {
 
     /**
      * Register and enqueue public-facing style sheet.
-     *
-     * @since    1.0.0
      */
     public function enqueue_styles() {
 
@@ -250,8 +224,6 @@ class Limelight {
 
     /**
      * Register and enqueues public-facing JavaScript files.
-     *
-     * @since    1.0.0
      */
     public function enqueue_scripts() {
 
@@ -261,8 +233,6 @@ class Limelight {
 
     /**
      * Register the administration menu for this plugin into the WordPress Dashboard menu.
-     *
-     * @since    1.0.0
      */
     public function add_admin_menu_pages() {
 
@@ -277,8 +247,6 @@ class Limelight {
 
     /**
      * Render the settings page for this plugin.
-     *
-     * @since    1.0.0
      */
     public function display_settings_page() {
 
@@ -299,8 +267,6 @@ class Limelight {
 
     /**
      * Process the settings page for this plugin.
-     *
-     * @since    1.0.0
      */
     private function process_settings_page() {
 
@@ -316,8 +282,6 @@ class Limelight {
 
     /**
      * Process the edit event page for this plugin.
-     *
-     * @since    1.0.0
      */
     private function process_edit_form_page() {
 
@@ -336,8 +300,6 @@ class Limelight {
 
     /**
      * Render the attendees page for this plugin.
-     *
-     * @since    1.0.0
      */
     public function display_attendees_page() {
 
@@ -346,8 +308,6 @@ class Limelight {
 
     /**
      * Register settings, add sections and fields
-     *
-     * @since    1.0.0
      */
     public function limelight_admin_init() {
 
@@ -414,8 +374,6 @@ class Limelight {
 
     /**
      * Translate GravityForms entry data into API POST fields
-     *
-     * @since    1.0.7
      */
     public static function get_field_data($entry, $form) {
 
@@ -453,8 +411,6 @@ class Limelight {
 
     /**
      * Add Limelight Attendee
-     *
-     * @since    1.0.0
      */
     public function gform_after_submission($entry, $form) {
 
@@ -466,8 +422,6 @@ class Limelight {
 
     /**
      * Update Limelight Attendee
-     *
-     * @since    1.0.0
      */
     public function gform_after_update_entry($form, $entry_id) {
 
@@ -490,8 +444,6 @@ class Limelight {
 
     /**
      * Delete Limelight Attendee
-     *
-     * @since    1.0.0
      */
     public function gform_delete_lead($entry_id) {
 
@@ -509,8 +461,6 @@ class Limelight {
      *
      *        WordPress Filters: http://codex.wordpress.org/Plugin_API#Filters
      *        Filter Reference:  http://codex.wordpress.org/Plugin_API/Filter_Reference
-     *
-     * @since    1.0.0
      */
     public function filter_method_name() {
         // TODO: Define your filter hook callback here

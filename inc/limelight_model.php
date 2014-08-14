@@ -10,8 +10,6 @@ class LimelightModel {
 
     /**
      * Setup the database tables
-     *
-     * @since    1.0.0
      */
     public static function setup_database() {
 
