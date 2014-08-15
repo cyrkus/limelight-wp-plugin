@@ -7,6 +7,7 @@ if (!class_exists('GFForms')) {
 class Limelight_GFFormList {
 
     public static function form_list_page() {
+
         global $wpdb;
 
         if(!GFCommon::ensure_wp_version())
@@ -26,7 +27,7 @@ class Limelight_GFFormList {
 
         <div class="wrap <?php echo GFCommon::get_browser_class() ?>">
 
-            <h2><?php _e("Forms", "gravityforms"); ?></h2>
+            <h2><?php _e("Forms", Limelight::$plugin_slug); ?></h2>
 
             <?php if (isset($message)) { ?>
             <div class="updated below-h2" id="message"><p><?php echo $message; ?></p></div>
@@ -38,10 +39,10 @@ class Limelight_GFFormList {
                 <input type="hidden" id="action_argument" name="action_argument"/>
 
                 <ul class="subsubsub">
-                    <li><a class="<?php echo ($active === null) ? "current" : "" ?>" href="?page=limelight"><?php _e("All", "gravityforms"); ?> <span class="count">(<span id="all_count"><?php echo $form_count["total"] ?></span>)</span></a> | </li>
-                    <li><a class="<?php echo $active == "1" ? "current" : ""?>" href="?page=limelight&active=1"><?php _e("Active", "gravityforms"); ?> <span class="count">(<span id="active_count"><?php echo $form_count["active"] ?></span>)</span></a> | </li>
-                    <li><a class="<?php echo $active == "0" ? "current" : ""?>" href="?page=limelight&active=0"><?php _e("Inactive", "gravityforms"); ?> <span class="count">(<span id="inactive_count"><?php echo $form_count["inactive"] ?></span>)</span></a> | </li>
-                    <li><a class="<?php echo $active == "0" ? "current" : ""?>" href="?page=limelight&trash=1"><?php _e("Trash", "gravityforms"); ?> <span class="count">(<span id="trash_count"><?php echo $form_count["trash"] ?></span>)</span></a></li>
+                    <li><a class="<?php echo ($active === null) ? "current" : "" ?>" href="?page=limelight"><?php _e("All", Limelight::$plugin_slug); ?> <span class="count">(<span id="all_count"><?php echo $form_count["total"] ?></span>)</span></a> | </li>
+                    <li><a class="<?php echo $active == "1" ? "current" : ""?>" href="?page=limelight&active=1"><?php _e("Active", Limelight::$plugin_slug); ?> <span class="count">(<span id="active_count"><?php echo $form_count["active"] ?></span>)</span></a> | </li>
+                    <li><a class="<?php echo $active == "0" ? "current" : ""?>" href="?page=limelight&active=0"><?php _e("Inactive", Limelight::$plugin_slug); ?> <span class="count">(<span id="inactive_count"><?php echo $form_count["inactive"] ?></span>)</span></a> | </li>
+                    <li><a class="<?php echo $active == "0" ? "current" : ""?>" href="?page=limelight&trash=1"><?php _e("Trash", Limelight::$plugin_slug); ?> <span class="count">(<span id="trash_count"><?php echo $form_count["trash"] ?></span>)</span></a></li>
                 </ul>
 
                 <table class="widefat fixed" cellspacing="0">
@@ -51,12 +52,12 @@ class Limelight_GFFormList {
                             $dir = $sort_column == "id" && $sort_direction == "ASC" ? "DESC" : "ASC";
                             $url_id = admin_url("admin.php?page=limelight&sort=id&dir=$dir&trash=$trash");
                             ?>
-                            <th scope="col" id="id" class="manage-column" style="width:50px;cursor:pointer;" onclick="document.location='<?php echo $url_id; ?>'"><?php _e("Id", "gravityforms");?></th>
+                            <th scope="col" id="id" class="manage-column" style="width:50px;cursor:pointer;" onclick="document.location='<?php echo $url_id; ?>'"><?php _e("Id", Limelight::$plugin_slug);?></th>
                             <?php
                             $dir = $sort_column == "title" && $sort_direction == "ASC" ? "DESC" : "ASC";
                             $url_title = admin_url("admin.php?page=limelight&sort=title&dir=$dir&trash=$trash");
                             ?>
-                            <th scope="col" id="title" class="manage-column column-title" style="cursor:pointer;" onclick="document.location='<?php echo $url_title; ?>'"><?php _e("Title", "gravityforms"); ?></th>
+                            <th scope="col" id="title" class="manage-column column-title" style="cursor:pointer;" onclick="document.location='<?php echo $url_title; ?>'"><?php _e("Title", Limelight::$plugin_slug); ?></th>
                             <th scope="col" id="event" class="manage-column" style=""><?php _e("Event", Limelight::$plugin_slug) ?></th>
                             <th scope="col" id="action" class="manage-column" style=""><?php _e("Action", Limelight::$plugin_slug) ?></th>
                         </tr>
@@ -64,8 +65,8 @@ class Limelight_GFFormList {
 
                     <tfoot>
                         <tr>
-                            <th scope="col" id="id" class="manage-column" style="cursor:pointer;" onclick="document.location='<?php echo $url_id; ?>'"><?php _e("Id", "gravityforms") ?></th>
-                            <th scope="col" id="title" style="cursor:pointer;" class="manage-column column-title" onclick="document.location='<?php echo $url_title; ?>'"><?php _e("Title", "gravityforms") ?></th>
+                            <th scope="col" id="id" class="manage-column" style="cursor:pointer;" onclick="document.location='<?php echo $url_id; ?>'"><?php _e("Id", Limelight::$plugin_slug) ?></th>
+                            <th scope="col" id="title" style="cursor:pointer;" class="manage-column column-title" onclick="document.location='<?php echo $url_title; ?>'"><?php _e("Title", Limelight::$plugin_slug) ?></th>
                             <th scope="col" id="event" class="manage-column" style=""><?php _e("Event", Limelight::$plugin_slug) ?></th>
                             <th scope="col" id="action" class="manage-column" style=""><?php _e("Action", Limelight::$plugin_slug) ?></th>
                         </tr>
@@ -88,13 +89,13 @@ class Limelight_GFFormList {
                                             ?>
                                             <strong><a class="row-title" disabled="<?php disabled(true, $trash); ?>"
                                                        href="admin.php?page=limelight&id=<?php echo $form->id ?>"
-                                                       title="<?php _e("Edit", "gravityforms") ?>"><?php echo $form->title ?></a></strong>
+                                                       title="<?php _e("Edit", Limelight::$plugin_slug) ?>"><?php echo $form->title ?></a></strong>
                                             <?php $gf_form_locking->lock_info($form->id);
                                         endif
                                         ?>
                                         <div class="row-actions">
 
-                                            <a class="" onclick="" title="Edit this form" href="?page=limelight&amp;id=2" target="">Edit</a>
+                                            <a class="" onclick="" title=<?php _e("Edit this form", Limelight::$plugin_slug); ?> href="?page=limelight&amp;id=2" target="">Edit</a>
 
                                         </div>
                                     </td>
@@ -110,9 +111,9 @@ class Limelight_GFFormList {
                                 <td colspan="6" style="padding:20px;">
                                     <?php
                                     if($trash)
-                                        echo __("There are no forms in the trash.", "gravityforms");
+                                        echo __("There are no forms in the trash.", Limelight::$plugin_slug);
                                     else
-                                        echo sprintf(__("You don't have any forms. Let's go %screate one%s!", "gravityforms"), '<a href="admin.php?page=gf_new_form">', "</a>");
+                                        echo sprintf(__("You don't have any forms. Let's go %screate one%s!", Limelight::$plugin_slug), '<a href="admin.php?page=gf_new_form">', "</a>");
 
                                     ?>
                                 </td>
