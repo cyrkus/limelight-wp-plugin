@@ -94,6 +94,7 @@ class Limelight_GFFormList {
                             ?>
                             <th scope="col" id="title" class="manage-column column-title" style="cursor:pointer;" onclick="document.location='<?php echo $url_title; ?>'"><?php _e("Title", "gravityforms"); ?></th>
                             <th scope="col" id="event" class="manage-column" style=""><?php _e("Event", Limelight::$plugin_slug) ?></th>
+                            <th scope="col" id="action" class="manage-column" style=""><?php _e("Action", Limelight::$plugin_slug) ?></th>
                         </tr>
                     </thead>
 
@@ -102,6 +103,7 @@ class Limelight_GFFormList {
                             <th scope="col" id="id" class="manage-column" style="cursor:pointer;" onclick="document.location='<?php echo $url_id; ?>'"><?php _e("Id", "gravityforms") ?></th>
                             <th scope="col" id="title" style="cursor:pointer;" class="manage-column column-title" onclick="document.location='<?php echo $url_title; ?>'"><?php _e("Title", "gravityforms") ?></th>
                             <th scope="col" id="event" class="manage-column" style=""><?php _e("Event", Limelight::$plugin_slug) ?></th>
+                            <th scope="col" id="action" class="manage-column" style=""><?php _e("Action", Limelight::$plugin_slug) ?></th>
                         </tr>
                     </tfoot>
 
@@ -133,6 +135,7 @@ class Limelight_GFFormList {
                                         </div>
                                     </td>
                                     <td class="column-date"><strong><?php print Limelight::get_event_name($form->id) ?></strong></td>
+                                    <td class="column-date"><strong><?php print Limelight::get_action_type($form->id) ?></strong></td>
                                 </tr>
                                 <?php
                             }

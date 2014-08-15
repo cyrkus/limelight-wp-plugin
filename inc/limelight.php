@@ -372,6 +372,16 @@ class Limelight {
         }
     }
 
+    public static function get_action_type($id) {
+
+        $form_settings = LimelightModel::get_form_settings($id);
+        if (isset($form_settings->action)) {
+            return LimelightAPI::$api_actions[ $form_settings->action ];
+        } else {
+            return '';
+        }
+    }
+
     /**
      * Translate GravityForms entry data into API POST fields
      */
