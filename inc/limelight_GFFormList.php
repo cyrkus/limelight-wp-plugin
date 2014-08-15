@@ -13,7 +13,6 @@ class Limelight_GFFormList {
             return;
 
         echo '<hr>';
-        // echo GFCommon::get_remote_message();
 
         $sort_column = empty($_GET["sort"]) ? "title" : $_GET["sort"];
         $sort_direction = empty($_GET["dir"]) ? "ASC" : $_GET["dir"];
@@ -25,41 +24,6 @@ class Limelight_GFFormList {
         $form_count = RGFormsModel::get_form_count();
         ?>
 
-        <script text="text/javascript">
-            function ToggleActive(img, form_id){
-                var is_active = img.src.indexOf("active1.png") >=0
-                if(is_active){
-                    img.src = img.src.replace("active1.png", "active0.png");
-                    jQuery(img).attr('title','<?php _e("Inactive", "gravityforms") ?>').attr('alt', '<?php _e("Inactive", "gravityforms") ?>');
-                }
-                else{
-                    img.src = img.src.replace("active0.png", "active1.png");
-                    jQuery(img).attr('title','<?php _e("Active", "gravityforms") ?>').attr('alt', '<?php _e("Active", "gravityforms") ?>');
-                }
-
-                UpdateCount("active_count", is_active ? -1 : 1);
-                UpdateCount("inactive_count", is_active ? 1 : -1);
-
-                var mysack = new sack("<?php echo admin_url("admin-ajax.php")?>" );
-                mysack.execute = 1;
-                mysack.method = 'POST';
-                mysack.setVar( "action", "rg_update_form_active" );
-                mysack.setVar( "rg_update_form_active", "<?php echo wp_create_nonce("rg_update_form_active") ?>" );
-                mysack.setVar( "form_id", form_id);
-                mysack.setVar( "is_active", is_active ? 0 : 1);
-                mysack.onError = function() { alert('<?php echo esc_js(__("Ajax error while updating form", "gravityforms")) ?>' )};
-                mysack.runAJAX();
-
-                return true;
-            }
-            function UpdateCount(element_id, change){
-                var element = jQuery("#" + element_id);
-                var count = parseInt(element.html()) + change
-                element.html(count + "");
-            }
-        </script>
-
-        <!-- <link rel="stylesheet" href="<?php echo GFCommon::get_base_url()?>/css/admin.css" /> -->
         <div class="wrap <?php echo GFCommon::get_browser_class() ?>">
 
             <h2><?php _e("Forms", "gravityforms"); ?></h2>
