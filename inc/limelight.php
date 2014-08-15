@@ -16,12 +16,13 @@
  * @author  7/Apps <ryan@7apps.com>
  */
 class Limelight {
+
     /**
      * Plugin version, used for cache-busting of style and script file references.
      *
      * @var     string
      */
-    protected $version = "1.0.7";
+    protected $version = "1.1.0";
 
     /**
      * Unique identifier for your plugin.

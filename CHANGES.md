@@ -1,3 +1,6 @@
+#### 1.1.0
+Add action to form settings
+
 #### 1.0.7
 Properly translate API post data for checkbox + radio type inputs
 
