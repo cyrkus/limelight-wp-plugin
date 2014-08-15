@@ -1,3 +1,6 @@
+#### 1.1.1
+Fix "visit plugin site" link
+
 #### 1.1.0
 Add action to form settings
 
