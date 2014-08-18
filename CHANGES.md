@@ -1,3 +1,6 @@
+#### 1.1.2
+Don't POST radio type inputs as an array
+
 #### 1.1.1
 Fix "visit plugin site" link
 
