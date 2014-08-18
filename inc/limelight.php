@@ -407,10 +407,6 @@ class Limelight {
                     $fields['formdata['. $e2i[$field_id] .'][]'] = urlencode( $entry[$field_input['id']] );
                 }
             }
-            else if ($field['type'] == 'radio')
-            {
-                $fields['formdata['. $e2i[$field_id] .'][]'] = urlencode( $entry[$field_id] );
-            }
             else
             {
                 $fields['formdata['. $e2i[$field_id] .']'] = urlencode( $entry[$field_id] );
