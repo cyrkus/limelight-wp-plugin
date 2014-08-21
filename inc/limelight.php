@@ -133,11 +133,14 @@ class Limelight {
         // Check for compatibility
         try {
             // check mycrypt
-            if(!function_exists('mcrypt_encrypt')) {
+            if (!function_exists('mcrypt_encrypt')) {
                 throw new Exception(__('Please enable \'php_mycrypt\' in PHP. It is needed to encrypt passwords.', self::$plugin_slug));
             }
+            else if (!class_exists('GFForms')) {
+                throw new Exception(__('GravityForms must be installed to use this plugin.', self::$plugin_slug));
+            }
         }
-        catch(Exception $e) {
+        catch (Exception $e) {
             deactivate_plugins($plugin_basename.'/backup.php', true);
             echo '<div id="message" class="error">' . $e->getMessage() . '</div>';
             trigger_error('Could not activate Limelight.', E_USER_ERROR);
