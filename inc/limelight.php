@@ -35,6 +35,13 @@ class Limelight {
     public static $plugin_slug = "limelight";
 
     /**
+     * Prefix for database values.
+     *
+     * @var      string
+     */
+    public static $prefix = "ll_";
+
+    /**
      * Instance of this class.
      *
      * @var      object
@@ -427,7 +434,7 @@ class Limelight {
         $fields = self::get_field_data($entry, $form);
 
         $attendee = LimelightAPI::add_attendee($fields);
-        gform_update_meta($entry['id'], 'll_attendee_id', $attendee->id);
+        gform_update_meta($entry['id'], Limelight::$prefix . 'attendee_id', $attendee->id);
     }
 
     /**
@@ -439,7 +446,7 @@ class Limelight {
 
         $fields = self::get_field_data($entry, $form);
 
-        $attendee_id = gform_get_meta($entry['id'], 'll_attendee_id');
+        $attendee_id = gform_get_meta($entry['id'], Limelight::$prefix . 'attendee_id');
 
         if ( $attendee_id != false && is_numeric($attendee_id) )
         {
@@ -448,7 +455,7 @@ class Limelight {
         else
         {
             $attendee = LimelightAPI::add_attendee($fields);
-            gform_update_meta($entry['id'], 'll_attendee_id', $attendee->id);
+            gform_update_meta($entry['id'], Limelight::$prefix . 'attendee_id', $attendee->id);
         }
     }
 
@@ -458,7 +465,7 @@ class Limelight {
     public function gform_delete_lead($entry_id) {
 
         $entry = RGFormsModel::get_lead($entry_id);
-        $attendee_id = gform_get_meta($entry['id'], 'll_attendee_id');
+        $attendee_id = gform_get_meta($entry['id'], Limelight::$prefix . 'attendee_id');
 
         if ( $attendee_id != false && strlen($attendee_id) ) {
             $res = LimelightAPI::delete_attendee($attendee_id);

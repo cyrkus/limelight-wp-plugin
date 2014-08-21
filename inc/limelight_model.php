@@ -5,7 +5,7 @@ class LimelightModel {
     public static function get_form_settings_table_name() {
 
         global $wpdb;
-        return $wpdb->prefix . "ll_form_settings";
+        return $wpdb->prefix . Limelight::$prefix . "form_settings";
     }
 
     /**
