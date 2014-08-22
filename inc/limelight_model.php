@@ -78,6 +78,44 @@ class LimelightModel {
         }
     }
 
+    public static function get_unlinked_entries($form_id) {
+
+        global $wpdb;
+
+        $entires = false;
+
+        $gf_lead_table_name = GFFormsModel::get_lead_table_name();
+        $gf_meta_table_name = GFFormsModel::get_lead_meta_table_name();
+        $id_key = Limelight::$prefix . 'attendee_id';
+        $sql = "SELECT id
+                FROM $gf_lead_table_name
+                WHERE id NOT IN (
+                    SELECT DISTINCT lead_id
+                    FROM $gf_meta_table_name
+                    WHERE meta_key = '$id_key'
+                )";
+        $res = $wpdb->get_results($sql);
+
+        if (count($res)) foreach ($res as $r) $entries[] = GFAPI::get_entry($r->id);
+
+        return $entries;
+    }
+
+    public static function get_attendee_meta($form_id) {
+
+        global $wpdb;
+
+        $gf_meta_table_name = GFFormsModel::get_lead_meta_table_name();
+        $id_key = Limelight::$prefix . 'attendee_id';
+        $sql = "SELECT *
+                FROM $gf_meta_table_name
+                WHERE meta_key = '$id_key'
+                AND form_id = '$form_id'";
+        $res = $wpdb->get_results($sql);
+
+        return $res;
+    }
+
     public static function update_form_settings($id, $settings) {
 
         global $wpdb;

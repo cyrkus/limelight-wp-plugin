@@ -39,7 +39,6 @@ class LimelightAPI {
         // Create + Submit POST Request to API
         $ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_URL, $options['endpoint'].'/v1/'.$URL);
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
@@ -47,6 +46,7 @@ class LimelightAPI {
 
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $type);
 
+        $cURL = $options['endpoint'].'/v1/'.$URL;
         if ( $fields !== false ) {
             $fields_string = '';
 
@@ -54,9 +54,15 @@ class LimelightAPI {
             foreach ($fields as $k => $val) { $fields_string .= $k.'='.$val.'&'; }
             rtrim($fields_string, '&');
 
-            curl_setopt($ch, CURLOPT_POST, count($fields));
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
+            if (strtolower($type) == 'get' || strtolower($type) == 'delete') {
+                $cURL .= '?' . $fields_string;
+            } else {
+                curl_setopt($ch, CURLOPT_POST, count($fields));
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
+            }
         }
+
+        curl_setopt($ch, CURLOPT_URL, $cURL);
 
         $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $result = curl_exec($ch);
@@ -116,6 +122,13 @@ class LimelightAPI {
         return $inputs;
     }
 
+    public static function get_attendee($id) {
+
+        $res = self::make_api_request('GET', 'attendees/' . $id);
+
+        return $res->attendee ? $res->attendee : false;
+    }
+
     public static function add_attendee($fields) {
 
         $res = self::make_api_request('POST', 'attendees', $fields);
@@ -130,9 +143,16 @@ class LimelightAPI {
         return $res->attendee;
     }
 
-    public static function delete_attendee($id) {
+    public static function delete_attendee($id, $force=false) {
 
-        return self::make_api_request('DELETE', 'attendees/'.$id);
+        $fields = $force ? array('force'=>1) : array();
+
+        return self::make_api_request('DELETE', 'attendees/'.$id, $fields);
+    }
+
+    public static function restore_attendee($id) {
+
+        return self::make_api_request('PUT', 'attendees/'.$id, array('restore'=>1));
     }
 
 }

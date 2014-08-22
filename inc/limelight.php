@@ -116,6 +116,7 @@ class Limelight {
             add_action("gform_after_submission", array($this, 'gform_after_submission'), 10, 2);
             add_action("gform_after_update_entry", array($this, 'gform_after_update_entry'), 10, 2);
             add_action("gform_delete_lead", array($this, 'gform_delete_lead'), 10, 1);
+            add_action("gform_update_status", array($this, 'gform_update_status'), 10, 3);
         }
 
         add_action('admin_init', array($this, 'limelight_admin_init'));
@@ -449,6 +450,7 @@ class Limelight {
 
         $attendee = LimelightAPI::add_attendee($fields);
         gform_update_meta($entry['id'], Limelight::$prefix . 'attendee_id', $attendee->id);
+        gform_update_meta($entry['id'], Limelight::$prefix . 'updated_at', time());
     }
 
     /**
@@ -470,7 +472,33 @@ class Limelight {
         {
             $attendee = LimelightAPI::add_attendee($fields);
             gform_update_meta($entry['id'], Limelight::$prefix . 'attendee_id', $attendee->id);
+            gform_update_meta($entry['id'], Limelight::$prefix . 'updated_at', time());
         }
+    }
+
+    public function gform_update_status($entry_id, $property_value, $previous_value) {
+
+        switch ($property_value)
+        {
+            case 'trash':
+                $entry = RGFormsModel::get_lead($entry_id);
+                $attendee_id = gform_get_meta($entry['id'], Limelight::$prefix . 'attendee_id');
+
+                if ( $attendee_id != false && strlen($attendee_id) ) {
+                    $res = LimelightAPI::delete_attendee($attendee_id);
+                }
+                break;
+            case 'active':
+                $entry = RGFormsModel::get_lead($entry_id);
+                $attendee_id = gform_get_meta($entry['id'], Limelight::$prefix . 'attendee_id');
+
+                if ( $attendee_id != false && strlen($attendee_id) ) {
+                    $res = LimelightAPI::restore_attendee($attendee_id);
+                }
+                break;
+            default; break;
+        }
+
     }
 
     /**
@@ -482,11 +510,16 @@ class Limelight {
         $attendee_id = gform_get_meta($entry['id'], Limelight::$prefix . 'attendee_id');
 
         if ( $attendee_id != false && strlen($attendee_id) ) {
-            $res = LimelightAPI::delete_attendee($attendee_id);
+            $res = LimelightAPI::delete_attendee($attendee_id, true);
         }
     }
 
+    // Get a list of Attendees from the API and add / edit / delete their corresponding entries
     public function check_attendees($force=false) {
+
+        // TODO:
+        // Add more complex logic to check which entry is more up-to-date
+        // by comparing the `updated_at` entry meta to the attendee
 
         if ($force || (get_transient(Limelight::$prefix . 'attendee_check_timeout') && get_transient(Limelight::$prefix . 'attendee_check_timeout') < time())) {
 
@@ -497,6 +530,32 @@ class Limelight {
                 $inputs = array();
                 foreach ($event->features as $feature) if ($feature->type == 'guest_list' && isset($feature->form) && isset($feature->form->inputs)) foreach ($feature->form->inputs as $i) $inputs[$i->id] = $i;
 
+                // Check for any unlinked entries and create them
+                $entries = LimelightModel::get_unlinked_entries($form['id']);
+                if ($entries) foreach ($entries as $entry) self::gform_after_submission($entry, $form);
+
+                // Check linked entries to ensure they still exist
+                $attendee_meta = LimelightModel::get_attendee_meta($form['id']);
+                if (count($attendee_meta)) foreach ($attendee_meta as $am) {
+
+                    $attendee = LimelightAPI::get_attendee($am->meta_value);
+                    if ($attendee) {
+
+                        self::map_attendee_data($attendee, $form, $inputs);
+
+                        $entry = GFAPI::get_entry($am->lead_id);
+                        foreach ($attendee->gf_entry as $k => $v) if ($k !== 'form_id' && $k !== 'date_created') $entry[$k] = $v;
+                        GFAPI::update_entry($entry);
+
+                        if (!is_null($attendee->deleted_at)) GFFormsModel::update_lead_property($entry['id'], 'status', 'trash');
+
+                    } else if (!$attendee) {
+
+                        GFAPI::delete_entry($am->lead_id);
+                    }
+                }
+
+                // Check through list of attendees and add them if necessary
                 foreach ($event->attendees as $attendee) {
 
                     self::map_attendee_data($attendee, $form, $inputs);
@@ -513,14 +572,22 @@ class Limelight {
         $entries = LimelightModel::get_entries_by_attendee_id($attendee->id);
         if (!$entries) $entries = LimelightModel::get_entries_by_email($attendee->person->email);
 
-        if ($entries) {
+        if ($entries && !isset($entries[0]->errors)) {
 
-            foreach ($entries as $entry) foreach ($attendee->gf_entry as $k => $v) if ($k !== 'form_id' && $k !== 'date_created') $entry[$k] = $v;
-            GFAPI::update_entry($entry);
+            foreach ($entries as $entry)
+            {
+                foreach ($attendee->gf_entry as $k => $v) if ($k !== 'form_id' && $k !== 'date_created') $entry[$k] = $v;
+                GFAPI::update_entry($entry);
+                gform_update_meta($entry['id'], Limelight::$prefix . 'attendee_id', $attendee->id);
+
+                if (!is_null($attendee->deleted_at)) GFFormsModel::update_lead_property($entry['id'], 'status', 'trash');
+            }
         } else {
 
             $entry_id = GFAPI::add_entry($attendee->gf_entry);
             gform_update_meta($entry_id, Limelight::$prefix . 'attendee_id', $attendee->id);
+
+            if (!is_null($attendee->deleted_at)) GFFormsModel::update_lead_property($entry_id, 'status', 'trash');
         }
     }
 
