@@ -27,7 +27,7 @@ class Limelight_GFFormList {
 
         <div class="wrap <?php echo GFCommon::get_browser_class() ?>">
 
-            <h2><?php _e("Forms", Limelight::$plugin_slug); ?></h2>
+            <h3><?php _e("Forms", Limelight::$plugin_slug); ?></h3>
 
             <?php if (isset($message)) { ?>
             <div class="updated below-h2" id="message"><p><?php echo $message; ?></p></div>
