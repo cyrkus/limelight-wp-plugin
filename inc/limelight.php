@@ -42,6 +42,13 @@ class Limelight {
     public static $prefix = "ll_";
 
     /**
+     * The amount of time to delay between updating entries from the API.
+     *
+     * @var      integer
+     */
+    public static $check_timeout = 3600; // 1 hour
+
+    /**
      * Instance of this class.
      *
      * @var      object
@@ -112,7 +119,6 @@ class Limelight {
         }
 
         add_action('admin_init', array($this, 'limelight_admin_init'));
-
     }
 
     /**
@@ -143,7 +149,7 @@ class Limelight {
             if (!function_exists('mcrypt_encrypt')) {
                 throw new Exception(__('Please enable \'php_mycrypt\' in PHP. It is needed to encrypt passwords.', self::$plugin_slug));
             }
-            else if (!class_exists('GFForms')) {
+            else if (!class_exists('GFForms') || !class_exists('GFAPI')) {
                 throw new Exception(__('GravityForms must be installed to use this plugin.', self::$plugin_slug));
             }
         }
@@ -322,11 +328,19 @@ class Limelight {
      */
     public function limelight_admin_init() {
 
+        date_default_timezone_set(get_option('timezone_string'));
+
+        $options = get_option('limelight_options');
+        if ($options['verified']) {
+            $force = isset($_GET['sync']) && $_GET['sync'] == 1;
+            self::check_attendees($force);
+        }
+
         register_setting('limelight_options', 'limelight_options', array($this, 'limelight_options_validate') );
-        add_settings_section('limelight_main', __( 'Settings', $this::$plugin_slug ), array($this, 'limelight_section'), 'limelight');
-        add_settings_field('endpoint', __( 'Endpoint', $this::$plugin_slug ), array($this, 'limelight_endpoint'), 'limelight', 'limelight_main');
-        add_settings_field('username', __( 'Username', $this::$plugin_slug ), array($this, 'limelight_username'), 'limelight', 'limelight_main');
-        add_settings_field('password', __( 'Password', $this::$plugin_slug ), array($this, 'limelight_password'), 'limelight', 'limelight_main');
+        add_settings_section('limelight_main', __( 'Settings', self::$plugin_slug ), array($this, 'limelight_section'), 'limelight');
+        add_settings_field('endpoint', __( 'Endpoint', self::$plugin_slug ), array($this, 'limelight_endpoint'), 'limelight', 'limelight_main');
+        add_settings_field('username', __( 'Username', self::$plugin_slug ), array($this, 'limelight_username'), 'limelight', 'limelight_main');
+        add_settings_field('password', __( 'Password', self::$plugin_slug ), array($this, 'limelight_password'), 'limelight', 'limelight_main');
     }
 
     public function limelight_section() {
@@ -469,6 +483,98 @@ class Limelight {
 
         if ( $attendee_id != false && strlen($attendee_id) ) {
             $res = LimelightAPI::delete_attendee($attendee_id);
+        }
+    }
+
+    public function check_attendees($force=false) {
+
+        if ($force || (get_transient(Limelight::$prefix . 'attendee_check_timeout') && get_transient(Limelight::$prefix . 'attendee_check_timeout') < time())) {
+
+            $forms = LimelightModel::get_all_settings();
+            foreach ($forms as $form) {
+
+                $event = LimelightAPI::get_event($form['settings']->event_id);
+                $inputs = array();
+                foreach ($event->features as $feature) if ($feature->type == 'guest_list' && isset($feature->form) && isset($feature->form->inputs)) foreach ($feature->form->inputs as $i) $inputs[$i->id] = $i;
+
+                foreach ($event->attendees as $attendee) {
+
+                    self::map_attendee_data($attendee, $form, $inputs);
+                    self::create_or_update_entries($attendee);
+                }
+            }
+
+            set_transient(Limelight::$prefix . 'attendee_check_timeout', time() + Limelight::$check_timeout);
+        }
+    }
+
+    public static function create_or_update_entries($attendee) {
+
+        $entries = LimelightModel::get_entries_by_attendee_id($attendee->id);
+        if (!$entries) $entries = LimelightModel::get_entries_by_email($attendee->person->email);
+
+        if ($entries) {
+
+            foreach ($entries as $entry) foreach ($attendee->gf_entry as $k => $v) if ($k !== 'form_id' && $k !== 'date_created') $entry[$k] = $v;
+            GFAPI::update_entry($entry);
+        } else {
+
+            $entry_id = GFAPI::add_entry($attendee->gf_entry);
+            gform_update_meta($entry_id, Limelight::$prefix . 'attendee_id', $attendee->id);
+        }
+    }
+
+    public static function map_attendee_data(&$attendee, $form, $inputs) {
+
+        $attendee->gf_entry = array(
+            'form_id'      => $form['id'],
+            'date_created' => date('Y-m-d H:i:s', strtotime($attendee->created_at))
+        );
+        foreach ($form['settings']->inputs as $input_id => $meta_id) {
+
+            if (isset($inputs[$input_id]) && !is_null($inputs[$input_id]->mapping)) {
+
+                switch ($inputs[$input_id]->mapping) {
+                    case 'first_name':
+                        $attendee->gf_entry[$meta_id] = $attendee->person->first_name;
+                        break;
+                    case 'last_name':
+                        $attendee->gf_entry[$meta_id] = $attendee->person->last_name;
+                        break;
+                    case 'email':
+                        $attendee->gf_entry[$meta_id] = $attendee->person->email;
+                        break;
+                    case 'phone':
+                        $attendee->gf_entry[$meta_id] = $attendee->person->phone;
+                        break;
+                    case 'street':
+                        $attendee->gf_entry[$meta_id] = $attendee->person->street;
+                        break;
+                    case 'city':
+                        $attendee->gf_entry[$meta_id] = $attendee->person->city;
+                        break;
+                    case 'state':
+                        $attendee->gf_entry[$meta_id] = $attendee->person->state;
+                        break;
+                    case 'zip':
+                        $attendee->gf_entry[$meta_id] = $attendee->person->zip;
+                        break;
+                    default: break;
+                }
+            } else if (!is_null($attendee->formdata) && isset($attendee->formdata->{$input_id})) {
+
+                $field = false;
+                foreach ($form['fields'] as $f) if ($f['id'] == $meta_id) $field = $f;
+                if ($field && $field['type'] == 'checkbox') {
+
+                    foreach ($field['choices'] as $k => $c) if ($attendee->formdata->{$input_id}) {
+                        $attendee->gf_entry[ $field['inputs'][$k]['id'] ] = $c['value'];
+                    }
+                } else {
+                    $attendee->gf_entry[$meta_id] = $attendee->formdata->{$input_id};
+                }
+            }
+
         }
     }
 

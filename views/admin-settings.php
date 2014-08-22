@@ -29,6 +29,17 @@ $options = get_option('limelight_options');
         </p>
     </form>
 
+    <hr>
+
+    <h3><?php _e('API Sync', Limelight::$plugin_slug); ?></h3>
+    <p>
+        By default, this plugin will check the API when an admin page (such as this one) is loaded.
+        During this check, the plugin will update the local form entires to match the Attendees data.
+        Once this happens, the API will not be checked again until after a delay of <strong><?php print Limelight::$check_timeout / 60; ?> minutes</strong>.
+    </p>
+    <p>The next check will occur after: <strong><?php print date('F jS Y \a\t h:i a', get_transient(Limelight::$prefix.'attendee_check_timeout')); ?></strong></p>
+    <p class="submit"><a href="?page=limelight&sync=1" class="button-primary">Sync Now</a></p>
+
     <?php if ($options['verified']) Limelight_GFFormList::form_list_page(); ?>
 
 </div>

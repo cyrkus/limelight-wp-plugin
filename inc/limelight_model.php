@@ -32,6 +32,25 @@ class LimelightModel {
         dbDelta($sql);
     }
 
+    public static function get_all_settings() {
+
+        global $wpdb;
+
+        $form_settings_table_name = self::get_form_settings_table_name();
+        $sql = "SELECT * FROM $form_settings_table_name";
+
+        $res = $wpdb->get_results($sql);
+
+        $forms = array();
+        foreach ($res as $r) {
+            $form = GFAPI::get_form($r->form_id);
+            $form['settings'] = json_decode($r->settings);
+            $forms[] = $form;
+        }
+
+        return $forms;
+    }
+
     public static function get_form_settings($id) {
 
         global $wpdb;
@@ -74,5 +93,42 @@ class LimelightModel {
                 WHERE form_id = $id";
         $wpdb->get_results($sql);
     }
+
+    public static function get_entries_by_attendee_id($id) {
+
+        global $wpdb;
+
+        $entries = false;
+
+        $gf_meta_table_name = GFFormsModel::get_lead_meta_table_name();
+        $id_key = Limelight::$prefix . 'attendee_id';
+        $sql = "SELECT *
+                FROM $gf_meta_table_name
+                WHERE meta_value = '$id'
+                AND meta_key = '$id_key'";
+        $res = $wpdb->get_results($sql);
+
+        if (count($res)) foreach ($res as $r) $entries[] = GFAPI::get_entry($r->lead_id);
+
+        return $entries;
+    }
+
+    public static function get_entries_by_email($email) {
+
+        global $wpdb;
+
+        $entries = false;
+
+        $gf_details_table_name = GFFormsModel::get_lead_details_table_name();
+        $sql = "SELECT *
+                FROM $gf_details_table_name
+                WHERE value = '$email'";
+        $res = $wpdb->get_results($sql);
+
+        if (count($res)) foreach ($res as $r) $entries[] = GFAPI::get_entry($r->lead_id);
+
+        return $entries;
+    }
+
 
 }
