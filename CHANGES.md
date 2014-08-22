@@ -1,3 +1,6 @@
+#### 1.2.0
+Add API check / sync
+
 #### 1.1.2
 Don't POST radio type inputs as an array
 
