@@ -131,6 +131,7 @@ class LimelightAPI {
     }
 
     public static function delete_attendee($id) {
+
         return self::make_api_request('DELETE', 'attendees/'.$id);
     }
 
