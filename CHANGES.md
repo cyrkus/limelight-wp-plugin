@@ -1,3 +1,10 @@
+#### 1.2.1
+Improved API Sync
+- Trashing an entry actually trashes it in API, as well as delete permanently
+- First, check for any unlinked entries and create them
+- Then, check linked entries to ensure they still exist in the API
+- Lastly, create any missing entries from the API
+
 #### 1.2.0
 Add API check / sync
 
