@@ -425,14 +425,27 @@ class Limelight {
         {
             $field_id = $field['id'];
 
-            if (!is_null($field['inputs']) && count($field['inputs']))
+            if (!is_null($field['inputs']) && count($field['inputs']) && in_array($field['type'], array('checkbox')) && isset($e2i[$field_id]))
             {
+                $i=0;
                 foreach ($field['inputs'] as $field_input)
                 {
-                    $fields['formdata['. $e2i[$field_id] .'][]'] = urlencode( $entry[$field_input['id']] );
+                    $fields['formdata['. $e2i[$field_id] .']['.$i.']'] = urlencode( $entry[ (string) $field_input['id']] );
+                    $i++;
                 }
             }
-            else
+            else if (isset($e2i[$field_id]) && in_array($field['type'], array('multiselect')))
+            {
+                $choices = explode(',', $entry[$field_id]);
+                $i=0;
+                foreach ($choices as $choice)
+                {
+                    $fields['formdata['. $e2i[$field_id] .']['.$i.']'] = urlencode( $choice );
+                    $i++;
+                }
+
+            }
+            else if (isset($e2i[$field_id]))
             {
                 $fields['formdata['. $e2i[$field_id] .']'] = urlencode( $entry[$field_id] );
             }
