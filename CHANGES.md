@@ -1,3 +1,6 @@
+#### 1.2.2
+Improved field data mapping
+
 #### 1.2.1
 Improved API Sync
 - Trashing an entry actually trashes it in API, as well as delete permanently
