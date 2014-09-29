@@ -39,6 +39,8 @@ class LimelightAPI {
         // Create + Submit POST Request to API
         $ch = curl_init();
 
+        if ($_SERVER['HTTP_HOST'] == 'local.wp') curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
