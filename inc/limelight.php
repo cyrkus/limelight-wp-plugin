@@ -332,9 +332,8 @@ class Limelight {
         date_default_timezone_set(get_option('timezone_string'));
 
         $options = get_option('limelight_options');
-        if ($options['verified']) {
-            $force = isset($_GET['sync']) && $_GET['sync'] == 1;
-            self::check_attendees($force);
+        if ($options['verified'] && isset($_GET['sync']) && $_GET['sync'] == 1) {
+            self::check_attendees(true);
         }
 
         register_setting('limelight_options', 'limelight_options', array($this, 'limelight_options_validate') );
