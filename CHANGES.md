@@ -1,3 +1,9 @@
+#### 1.2.3
+- Removed automatic syncing, must press button to activate
+- Add variable checks / defaults to fix errors / notices
+- Allow multiple entries with the same email address
+- Fixed guest field data mapping
+
 #### 1.2.2
 Improved field data mapping
 

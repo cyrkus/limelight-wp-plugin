@@ -14,7 +14,7 @@
  * Plugin Name:       Limelight
  * Plugin URI:        https://github.com/sevenapps/limelight-wp-plugin
  * Description:       Sync Attendee and other data captured by wordpress with the Limelight API.
- * Version:           1.2.2
+ * Version:           1.2.3
  * Author:            7/Apps <ryan@7apps.com>
  * Author URI:        http://www.7apps.com
  * Text Domain:       limelight
