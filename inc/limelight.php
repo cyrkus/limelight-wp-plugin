@@ -601,6 +601,7 @@ class Limelight {
 
             $entry_id = GFAPI::add_entry($attendee->gf_entry);
             gform_update_meta($entry_id, Limelight::$prefix . 'attendee_id', $attendee->id);
+            gform_update_meta($entry_id, Limelight::$prefix . 'updated_at', time());
 
             if (!is_null($attendee->deleted_at)) GFFormsModel::update_lead_property($entry_id, 'status', 'trash');
         }
