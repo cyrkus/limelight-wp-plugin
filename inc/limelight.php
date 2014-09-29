@@ -413,6 +413,7 @@ class Limelight {
     public static function get_field_data($entry, $form) {
 
         $form_settings = LimelightModel::get_form_settings($form['id']);
+        if (!isset($form_settings->inputs)) return array();
 
         $e2i = array_flip( get_object_vars($form_settings->inputs) );
 
@@ -537,6 +538,8 @@ class Limelight {
 
             $forms = LimelightModel::get_all_settings();
             foreach ($forms as $form) {
+
+                if (!isset($form['settings']->event_id)) continue;
 
                 $event = LimelightAPI::get_event($form['settings']->event_id);
                 $inputs = array();
