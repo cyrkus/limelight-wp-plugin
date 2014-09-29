@@ -543,7 +543,10 @@ class Limelight {
 
                 $event = LimelightAPI::get_event($form['settings']->event_id);
                 $inputs = array();
-                foreach ($event->features as $feature) if ($feature->type == 'guest_list' && isset($feature->form) && isset($feature->form->inputs)) foreach ($feature->form->inputs as $i) $inputs[$i->id] = $i;
+                foreach ($event->features as $feature)
+                    if ($feature->type == 'guest_list' && isset($feature->form) && isset($feature->form->inputs))
+                        foreach ($feature->form->inputs as $i)
+                            $inputs[$i->id] = $i;
 
                 // Check for any unlinked entries and create them
                 $entries = LimelightModel::get_unlinked_entries($form['id']);
