@@ -639,6 +639,9 @@ class Limelight {
                     case 'zip':
                         $attendee->gf_entry[$meta_id] = $attendee->person->zip;
                         break;
+                    case 'guests':
+                        $attendee->gf_entry[$meta_id] = $attendee->guests;
+                        break;
                     default: break;
                 }
             } else if (!is_null($attendee->formdata) && isset($attendee->formdata->{$input_id})) {
