@@ -82,7 +82,7 @@ class LimelightModel {
 
         global $wpdb;
 
-        $entires = false;
+        $entries = array();
 
         $gf_lead_table_name = GFFormsModel::get_lead_table_name();
         $gf_meta_table_name = GFFormsModel::get_lead_meta_table_name();
