@@ -585,7 +585,7 @@ class Limelight {
     public static function create_or_update_entries($attendee) {
 
         $entries = LimelightModel::get_entries_by_attendee_id($attendee->id);
-        if (!$entries) $entries = LimelightModel::get_entries_by_email($attendee->person->email);
+        // if (!$entries) $entries = LimelightModel::get_entries_by_email($attendee->person->email);
 
         if ($entries && !isset($entries[0]->errors)) {
 
