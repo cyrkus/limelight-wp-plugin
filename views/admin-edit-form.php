@@ -28,7 +28,7 @@ foreach (LimelightAPI::$api_actions as $action => $label) {
 }
 
 $event_opts = array();
-foreach ($events as $event) {
+if ($events) foreach ($events as $event) {
     $selected = ($form_settings->event_id == $event->id) ? 'selected' : '';
     $event_opts[] = sprintf("<option value='%d' %s>%s</option>", $event->id, $selected, $event->name);
 }

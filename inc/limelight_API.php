@@ -82,7 +82,7 @@ class LimelightAPI {
         $res = self::make_api_request('GET', 'events');
         unset($res->client);
 
-        foreach ($res->events as $k => $v)
+        if ($res->events) foreach ($res->events as $k => $v)
         {
             unset($res->events[$k]->attendees);
             unset($res->events[$k]->settings);
@@ -104,9 +104,8 @@ class LimelightAPI {
         $inputs = array();
         $lang_id = 0;
 
-        if ( is_numeric($id) ) {
+        if ( is_numeric($id) && $res = self::make_api_request('GET', 'events/'.$id)) {
 
-            $res = self::make_api_request('GET', 'events/'.$id);
             // print '<pre>'; print_r($res); die();
 
             foreach ($res->event->languages as $lang)
