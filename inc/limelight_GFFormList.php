@@ -95,7 +95,7 @@ class Limelight_GFFormList {
                                         ?>
                                         <div class="row-actions">
 
-                                            <a class="" onclick="" title=<?php _e("Edit this form", Limelight::$plugin_slug); ?> href="?page=limelight&amp;id=2" target="">Edit</a>
+                                            <a title=<?php _e("Edit this form", Limelight::$plugin_slug); ?> href="?page=limelight&amp;id=<?= $form->id ?>">Edit</a>
 
                                         </div>
                                     </td>
