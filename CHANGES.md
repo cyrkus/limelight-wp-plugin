@@ -1,3 +1,6 @@
+#### 1.2.4
+Updated API Endpoint + Added version param
+
 #### 1.2.3
 - Removed automatic syncing, must press button to activate
 - Add variable checks / defaults to fix errors / notices

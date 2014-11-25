@@ -22,7 +22,7 @@ class Limelight {
      *
      * @var     string
      */
-    protected $version = "1.2.3";
+    protected $version = "1.2.4";
 
     /**
      * Unique identifier for your plugin.
