@@ -48,20 +48,21 @@ class LimelightAPI {
 
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $type);
 
-        $cURL = $options['endpoint'].'/v1/'.$URL;
-        if ( $fields !== false ) {
-            $fields_string = '';
+        $cURL = $options['endpoint'].'/v1.2/'.$URL;
 
-            // URL-ify the data for the POST
-            foreach ($fields as $k => $val) { $fields_string .= $k.'='.$val.'&'; }
-            rtrim($fields_string, '&');
+        $fields_string = '';
+        if ( $fields === false ) $fields = array('v' => '1.2.28');
+        else $fields['v'] = '1.2.28';
 
-            if (strtolower($type) == 'get' || strtolower($type) == 'delete') {
-                $cURL .= '?' . $fields_string;
-            } else {
-                curl_setopt($ch, CURLOPT_POST, count($fields));
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
-            }
+        // URL-ify the data for the POST
+        foreach ($fields as $k => $val) { $fields_string .= $k.'='.$val.'&'; }
+        rtrim($fields_string, '&');
+
+        if (strtolower($type) == 'get' || strtolower($type) == 'delete') {
+            $cURL .= '?' . $fields_string;
+        } else {
+            curl_setopt($ch, CURLOPT_POST, count($fields));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
         }
 
         curl_setopt($ch, CURLOPT_URL, $cURL);
